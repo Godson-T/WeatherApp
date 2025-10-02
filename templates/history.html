@@ -1,0 +1,12 @@
+{% extends "index.html" %}
+
+{% block content %}
+<h1>City Search History</h1>
+<div class="history-container">
+    <ul class="history-list">
+        {% for city in cities %}
+            <li>{{ city }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

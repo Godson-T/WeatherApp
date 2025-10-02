@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='script/script.js') }}">
+    <title>Weather App</title>
+</head>
+<body>
+    
+<!-- Hamburger Icon -->
+<span id="openBtn" style="font-size:30px;cursor:pointer;position:fixed;top:20px;left:20px;z-index:2;">&#9776;</span>
+
+<!-- Sidebar Menu -->
+<div id="sidebar" class="sidebar" style="width:0;position:fixed;z-index:1;top:0;left:0;background:#111;height:100%;overflow-x:hidden;transition:0.5s;padding-top:60px;">
+    <a href="javascript:void(0)" class="closebtn" id="closeBtn" style="position:absolute;top:20px;right:25px;font-size:36px;">&times;</a>
+    <br>
+    {% if current_page=='history' %}
+    <a href="/">Back to Weather</a>
+    {% elif current_page=="weather" %}
+ <a href="{{ url_for('history') }}">History</a>
+    {% endif %}
+
+</div>
+
+
+
+
+    {% block content %}
+    <h1>Weather App</h1>
+    <form id="weather-form" method="POST">
+        <input type="text" id="location" placeholder="Enter location" name="city" required>
+        <button type="submit">Get Weather</button>
+    </form>
+    <div id="weather-result"></div>
+    {% if weather %}
+    {% if weather.error %}
+
+    <div class="error">
+        <p>{{ weather.error }}</p>
+    </div>
+    
+    {% else %}
+    <div class="weather_info">
+        <h2>{{weather.city}}</h2>
+        <p>Temperature: {{weather.temp}} °C</p>
+        <p>Description: {{weather.desc}}</p>
+        <p>Feels Like: {{weather.feels_like}} °C</p>
+        <img src="https://openweathermap.org/img/wn/{{weather.icon}}@2x.png" alt="Weather icon">
+    </div>
+    {% endif %} 
+    {% endif %}   
+    {% endblock %}
+
+
+<script>
+document.getElementById("openBtn").onclick = function() {
+    document.getElementById("sidebar").style.width = "250px";
+    document.getElementById("openBtn").style.display = "none";
+};
+document.getElementById("closeBtn").onclick = function() {
+    document.getElementById("sidebar").style.width = "0";
+    document.getElementById("openBtn").style.display = "inline";
+};
+</script>
+    
+</body>
+</html>
