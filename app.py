@@ -3,7 +3,6 @@ import os
 import requests
 from dotenv import load_dotenv
 
-load_dotenv() 
 API_KEY=os.getenv("API_KEY")
 
 app=Flask(__name__)
@@ -12,7 +11,7 @@ app=Flask(__name__)
 def weather():
     weather=None
     if request.method=="POST":
-        city=request.form.get("city")
+        city=request.form.get("city").strip()
         with open("example.txt", "a") as file:
             file.write(city+"\n")  
         url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
